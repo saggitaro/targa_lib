@@ -135,3 +135,11 @@ int TGAImage::getHeight() {
 int TGAImage::getBytespp() {
     return bytespp;
 }
+
+unsigned char *TGAImage::buffer() {
+    return data;
+}
+
+void TGAImage::clear() {
+    memset((void *)data, 0, width * height * bytespp);
+}

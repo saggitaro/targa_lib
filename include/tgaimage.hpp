@@ -89,6 +89,9 @@ public:
     int getWidth();
     int getHeight();
     int getBytespp();
+
+    unsigned char *buffer();
+    void clear();
 };
 
 #endif
