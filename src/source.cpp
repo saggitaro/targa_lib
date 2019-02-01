@@ -1,13 +1,24 @@
 #include "../include/tgaimage.hpp"
 
 const TGAColor red = TGAColor(255, 0, 0, 255);
+const TGAColor blue = TGAColor(0, 0, 255, 255);
 
 int main() {
-    TGAImage image = TGAImage(100, 100, TGAImage::RGB);
-    for (int i = 0; i < image.getWidth(); i++) {
-        image.setColor(i, image.getHeight()>>1, red);
-    }
+    TGAImage image = TGAImage(500, 500, TGAImage::RGB);
     
-    bool flag = image.write_tga_file("out.tga");
+    for (int j = 0; j < image.getHeight(); j++) {
+        if (j < image.getHeight()>>1) {
+            image.setColor(image.getWidth()>>1, j, red);
+        }
+        else {
+            image.setColor(image.getWidth()>>1, j, blue);
+        }
+    }
+    image.write_tga_file("out.tga");
+    image.FlipVertical();
+    image.write_tga_file("out1.tga");
+    
+    
+    
     return 0;   
 }

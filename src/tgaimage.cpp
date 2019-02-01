@@ -98,10 +98,44 @@ bool TGAImage::PrintToConsole() {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             TGAColor c = getColor(i, j);
-            std::cout << "(" << (int)c.rgba[0] << ":" << (int)c.rgba[1] << ":" << (int)c.rgba[2] << ":" << (int)c.rgba[3] << ") ";
+            std::cout << "(" << (int)c.rgba[2] << ":" << (int)c.rgba[1] << ":" << (int)c.rgba[0] << ":" << (int)c.rgba[3] << ") ";
         }
         std::cout << std::endl;
     }
+}
+
+bool TGAImage::FlipHorizontal() {
+    if (!data)
+        return false;
+
+    int pivot = width >> 1;
+    for (int i = 0; i < pivot; i++) {
+        for (int j = 0; j < height; j++) {
+            TGAColor c1 = getColor(i, j);
+            TGAColor c2 = getColor(width - 1 - i, j);
+            setColor(i, j, c2);
+            setColor(width - 1 - i, j, c1);
+        }
+    }
+    return true;
+}
+
+bool TGAImage::FlipVertical() {
+    if (!data)
+        return false;
+    
+    int pivot = height >> 1;
+    unsigned long bytespl = width * bytespp;
+    unsigned char* buff = new unsigned char[bytespl];
+    for (int j = 0; j < pivot; j++) {
+        unsigned long line1pos = j * bytespl;
+        unsigned long line2pos = (height - 1 - j) * bytespl;
+        memmove((void *)buff, (void *)(data + line1pos), bytespl);
+        memmove((void *)(data + line1pos), (void *)(data + line2pos), bytespl);
+        memmove((void *)(data + line2pos), (void *)buff, bytespl);
+    }
+    delete [] buff;
+    return true;
 }
 
 TGAColor TGAImage::getColor(int x, int y) {

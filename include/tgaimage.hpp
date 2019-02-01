@@ -82,6 +82,9 @@ public:
 
     bool PrintToConsole();
 
+    bool FlipHorizontal();
+    bool FlipVertical();
+    
     TGAColor getColor(int x, int y);
     bool setColor(int x, int y, TGAColor &color);
     bool setColor(int x, int y, const TGAColor &color);
